@@ -3,6 +3,18 @@ package zander.lexicon.currencyconverter;
 public class CurrencyConversion {
     private final Currency input;
     private final Currency output;
+
+    public Currency getInput() {
+        return input;
+    }
+
+    public Currency getOutput() {
+        return output;
+    }
+
+    public double getRate() {
+        return rate;
+    }
     private final double rate;
 
     public CurrencyConversion(Currency input, Currency output, double rate) {

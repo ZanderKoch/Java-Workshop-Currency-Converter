@@ -2,11 +2,15 @@ package zander.lexicon.currencyconverter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Currency Converter app");
+
+        List<CurrencyConversion> permutations = ConversionPermutator.getPermutations(getInitialConversions());
 
         System.out.println("""
                 1. Convert SEK to USD\s
@@ -133,5 +137,23 @@ public class Main {
             }
         }
         return chosenOriginalAmount;
+    }
+
+    /**
+     * Returns a list of CurrencyConversions that all have the same base Currency as their input and no duplicate
+     * outputs
+     * @return a list of CurrencyConversions with the same input and no duplicate outputs.
+     */
+    private static List<CurrencyConversion> getInitialConversions() {
+        Currency base = Currency.USD;
+
+        List<CurrencyConversion> conversions = new ArrayList<>();
+        conversions.add(new CurrencyConversion(base, Currency.SEK,11.15 ));
+        conversions.add(new CurrencyConversion(base, Currency.EUR, 0.97));
+//        conversions.add(new CurrencyConversion(base, Currency.NOK, 11.35));
+//        conversions.add(new CurrencyConversion(base, Currency.ISK, 140.89));
+//        conversions.add(new CurrencyConversion(base, Currency.DKK, 7.24));
+//        conversions.add(new CurrencyConversion(base, Currency.GBP, 0.82));
+        return conversions;
     }
 }
