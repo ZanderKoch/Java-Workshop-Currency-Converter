@@ -15,6 +15,7 @@ public class CurrencyConversion {
     public double getRate() {
         return rate;
     }
+
     private final double rate;
 
     public CurrencyConversion(Currency input, Currency output, double rate) {
@@ -37,5 +38,10 @@ public class CurrencyConversion {
 
     public String resultString(double amount){
         return String.format("%.3f %s = %.3f %s", amount, this.input, this.convert(amount), this.output);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("CurrencyConversion{%s -> %s @ %.3f}", input, output, rate);
     }
 }

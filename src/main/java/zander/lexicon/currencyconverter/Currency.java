@@ -19,6 +19,6 @@ public enum Currency {
 
     @Override
     public String toString(){
-        return this.name;
+        return super.name();
     }
 }

@@ -11,6 +11,7 @@ public class Main {
         System.out.println("Currency Converter app");
 
         List<CurrencyConversion> permutations = ConversionPermutator.getPermutations(getInitialConversions());
+        System.out.println(permutations);
 
         System.out.println("""
                 1. Convert SEK to USD\s
@@ -60,7 +61,7 @@ public class Main {
             }
 
             //print result of conversion
-            System.out.printf("%.3f %s = %f %s\n",
+            System.out.printf("%.3f %s = %.3f %s\n",
                     chosenOriginalAmount,
                     originalCurrencyName,
                     (chosenOriginalAmount * conversionRate),
