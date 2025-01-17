@@ -8,10 +8,16 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Currency Converter app");
+
+        IOManager io = new IOManager(System.in, System.out);
+
+        io.foobarbaz();
+
+        io.printStartMessage();
 
         List<CurrencyConversion> permutations = ConversionPermutator.getPermutations(getInitialConversions());
         System.out.println(permutations);
+        System.out.println(permutations.size());
 
         System.out.println("""
                 1. Convert SEK to USD\s
@@ -24,12 +30,12 @@ public class Main {
         while (true) {
 
 
-            int chosenOption = getOption();
+            int chosenOption = io.getOption();
             if (chosenOption == 0) {
                 break;
             }
 
-            double chosenOriginalAmount = getOriginalAmount();
+            double chosenOriginalAmount = io.getOriginalAmount();
 
             //set conversion rate and currency names based on previously chosen option
             String originalCurrencyName;
@@ -68,78 +74,9 @@ public class Main {
                     outputCurrencyName);
 
             //print current time for some reason
-            printCurrentTime();
+            io.printCurrentTime();
         }
     }
-
-    private static void printCurrentTime() {
-        LocalDateTime current = LocalDateTime.now();
-        String formattedTime = current.format(DateTimeFormatter.ofPattern("MMMM dd, yyy, HH:mm:ss"));
-        System.out.println(formattedTime);
-    }
-
-    /**
-     * Prompts user to enter a number corresponding to an option using a system.in scanner
-     * until the user enters a valid one and returns the first valid choise.
-     *
-     * @return The first valid number the user enters
-     */
-    private static int getOption() {
-        Scanner sc = new Scanner(System.in);
-        int chosenOption = 0;
-        while (true) {
-            System.out.println("Enter your choise:");
-            String input = sc.nextLine();
-
-            int inputNum;
-            try { //check that it's a number
-                inputNum = Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a numeric integer between 0 and 4 (both inclusive)!");
-                continue;
-            }
-
-            if (!(0 <= inputNum && inputNum <= 4)) {
-                System.out.println("Please enter a numeric integer between 0 and 4 (both inclusive)!");
-            } else {
-                chosenOption = inputNum;
-                break;
-            }
-        }
-        return chosenOption;
-    }
-
-    /**
-     * Prompts user to enter the amount of the original currency to be converted using a system.in scanner until the
-     * user enters a positive number and returns the first one the user enters
-     *
-     * @return The first positive number the user enters
-     */
-    private static double getOriginalAmount() {
-        Scanner sc = new Scanner(System.in);
-        double chosenOriginalAmount = 0;
-        while (true) {
-            System.out.println("Enter amount of original currency:");
-            String input = sc.nextLine();
-
-            double inputNum;
-            try { //check that it's a number
-                inputNum = Double.parseDouble(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a positive numeric number!");
-                continue;
-            }
-
-            if (inputNum <= 0) {
-                System.out.println("Please enter a positive numeric number!");
-            } else {
-                chosenOriginalAmount = inputNum;
-                break;
-            }
-        }
-        return chosenOriginalAmount;
-    }
-
     /**
      * Returns a list of CurrencyConversions that all have the same base Currency as their input and no duplicate
      * outputs
@@ -155,6 +92,8 @@ public class Main {
 //        conversions.add(new CurrencyConversion(base, Currency.ISK, 140.89));
 //        conversions.add(new CurrencyConversion(base, Currency.DKK, 7.24));
 //        conversions.add(new CurrencyConversion(base, Currency.GBP, 0.82));
+        conversions.add(new CurrencyConversion(base, Currency.DKK, 7.24));
+        conversions.add(new CurrencyConversion(base, Currency.GBP, 0.82));
         return conversions;
     }
 }
