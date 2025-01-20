@@ -1,79 +1,28 @@
 package zander.lexicon.currencyconverter;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         IOManager io = new IOManager(System.in, System.out);
 
-        io.foobarbaz();
-
         io.printStartMessage();
 
         List<CurrencyConversion> permutations = ConversionPermutator.getPermutations(getInitialConversions());
-        System.out.println(permutations);
-        System.out.println(permutations.size());
-
-        System.out.println("""
-                1. Convert SEK to USD\s
-                2. Convert USD to SEK\s
-                3. Convert SEK to Euro\s
-                4. Convert Euro to SEK\s
-                0. Exit
-                """);
-
-        while (true) {
-
-
-            int chosenOption = io.getOption();
-            if (chosenOption == 0) {
+        Menu<CurrencyConversion> conversionMenu = new Menu<CurrencyConversion>(permutations, 5);
+        while(true){
+            int optionNum = io.getOptionNumFromMenu(conversionMenu);
+            if (optionNum == 0){
                 break;
             }
+            CurrencyConversion chosenConversion = conversionMenu.getCurrentPageItems().get(optionNum-1);
 
-            double chosenOriginalAmount = io.getOriginalAmount();
+            double originalAmount = io.getOriginalAmount();
 
-            //set conversion rate and currency names based on previously chosen option
-            String originalCurrencyName;
-            String outputCurrencyName;
-            double conversionRate;
-            switch (chosenOption) {
-                case 1:
-                    originalCurrencyName = "SEK";
-                    outputCurrencyName = "USD";
-                    conversionRate = 0.090;
-                    break;
-                case 2:
-                    originalCurrencyName = "USD";
-                    outputCurrencyName = "SEK";
-                    conversionRate = 11.16;
-                    break;
-                case 3:
-                    originalCurrencyName = "SEK";
-                    outputCurrencyName = "Euro";
-                    conversionRate = 0.087;
-                    break;
-                case 4:
-                    originalCurrencyName = "Euro";
-                    outputCurrencyName = "SEK";
-                    conversionRate = 11.50;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + chosenOption);
-            }
+            io.convert(chosenConversion,originalAmount);
 
-            //print result of conversion
-            System.out.printf("%.3f %s = %.3f %s\n",
-                    chosenOriginalAmount,
-                    originalCurrencyName,
-                    (chosenOriginalAmount * conversionRate),
-                    outputCurrencyName);
-
-            //print current time for some reason
             io.printCurrentTime();
         }
     }
@@ -92,8 +41,6 @@ public class Main {
 //        conversions.add(new CurrencyConversion(base, Currency.ISK, 140.89));
 //        conversions.add(new CurrencyConversion(base, Currency.DKK, 7.24));
 //        conversions.add(new CurrencyConversion(base, Currency.GBP, 0.82));
-        conversions.add(new CurrencyConversion(base, Currency.DKK, 7.24));
-        conversions.add(new CurrencyConversion(base, Currency.GBP, 0.82));
         return conversions;
     }
 }
