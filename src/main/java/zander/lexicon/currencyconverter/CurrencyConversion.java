@@ -1,6 +1,6 @@
 package zander.lexicon.currencyconverter;
 
-public class CurrencyConversion {
+public class CurrencyConversion implements MenuItem {
     private final Currency input;
     private final Currency output;
 
@@ -32,8 +32,8 @@ public class CurrencyConversion {
         return amount * rate;
     }
 
-    public String optionString(){
-        return String.format("Convert %s to %s", input, output);
+    public String getOptionString(){
+        return String.format("Convert %s to %s", input.getName(), output.getName());
     }
 
     public String resultString(double amount){
@@ -43,5 +43,9 @@ public class CurrencyConversion {
     @Override
     public String toString() {
         return String.format("CurrencyConversion{%s -> %s @ %.3f}", input, output, rate);
+    }
+
+    public String getDisplayString() {
+        return getOptionString();
     }
 }
